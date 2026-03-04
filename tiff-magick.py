@@ -43,6 +43,15 @@ def process_pdf(file_name):
 # Process for an individual page
 def process_page(number, file_name):
     print(str(number) + " " + file_name)
+    if number == 2:
+        # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic. 
+        subprocess.run([
+            "magick",
+            "-density", "300",
+            f"{file_name}[{number}]",
+            # TODO: Figure out how to algorithmically fix this line
+            "test.tiff"
+        ])
 
 
 # Loop Through Input Files
