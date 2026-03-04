@@ -25,7 +25,9 @@ else:
     print(quit)
 
 
-# Process to run for an individual file
+# DECLARATION OF HELPER FUNCTIONS/SUBROUTINES
+
+# Process individual PDF
 def process_pdf(file_name):
     print(file_name)
     result = subprocess.run(
@@ -40,11 +42,11 @@ def process_pdf(file_name):
         process_page((x + 1), file_name)
 
 
-# Process for an individual page
+# Process for an individual page within pdf
 def process_page(number, file_name):
     print(str(number) + " " + file_name)
     if number == 2:
-        # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic. 
+        # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic.
         subprocess.run([
             "magick",
             "-density", "300",
@@ -54,7 +56,7 @@ def process_page(number, file_name):
         ])
 
 
-# Loop Through Input Files
+# Start Main Script and loop through all PDF files
 folder = "input-files"
 for file in os.listdir(folder):
     if file.lower().endswith(".pdf"):
