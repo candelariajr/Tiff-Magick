@@ -27,9 +27,20 @@ else:
 
 # DECLARATION OF HELPER FUNCTIONS/SUBROUTINES
 
+# Validate Ghostscript.
+# Ghostscript is a library made for ImageMagick designed to allow for the support of larger files
+def check_ghostscript():
+    result = subprocess.run(
+        ["where", "gswin64c"],
+        capture_output=True,
+        text=True
+    )
+    return result.returncode == 1
+
+
 # Process individual PDF
 def process_pdf(file_name):
-    print(file_name)
+    print("Processing File: " + file_name)
     result = subprocess.run(
         # This is a string locator test
         # ["magick", "identify", "\"" + file_name + "\""],
@@ -45,19 +56,37 @@ def process_pdf(file_name):
 # Process for an individual page within pdf
 def process_page(number, file_name):
     print(str(number) + " " + file_name)
-    if number == 2:
-        # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic.
-        subprocess.run([
-            "magick",
-            "-density", "300",
-            f"{file_name}[{number}]",
-            # TODO: Figure out how to algorithmically fix this line
-            "test.tiff"
-        ])
+    # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic.
+
+    # subprocess.run([
+    #     "magick",
+    #     "-density", "300",
+    #     f"{file_name}[{number}]",
+    #     # TODO: Figure out how to algorithmically fix this line
+    #     "test.tiff"
+    # ])
+    new_file = generate_file_name(file_name, number)
+    print("output is: " + new_file)
+
+
+def generate_file_name(file_name, page_num):
+
+    file_name = file_name.replace("input-files", "output-files")
+    base = file_name.replace(".pdf", "")
+
+    page = str(page_num).zfill(2)
+
+    return f"{base}_{page}.pdf"
 
 
 # Start Main Script and loop through all PDF files
 folder = "input-files"
+# validate Ghostscript
+if check_ghostscript():
+    print("Ghostscript Test Complete")
+else:
+    print("Ghostscript Test Failed")
+
 for file in os.listdir(folder):
     if file.lower().endswith(".pdf"):
         pdf_path = os.path.join(folder, file)
