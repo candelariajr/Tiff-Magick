@@ -73,10 +73,11 @@ def generate_file_name(file_name, page_num):
 
     file_name = file_name.replace("input-files", "output-files")
     base = file_name.replace(".pdf", "")
+    base = base.replace("BlueRidgeSun", "")
     page_num = page_num + 1 # this is to make sure page number 0 is called "Page Number 1"
     page = str(page_num).zfill(2)
 
-    return f"{base}_{page}.pdf"
+    return f"{base}_{page}.tiff"
 
 
 # Start Main Script and loop through all PDF files
