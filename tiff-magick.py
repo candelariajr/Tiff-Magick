@@ -35,7 +35,7 @@ def check_ghostscript():
         capture_output=True,
         text=True
     )
-    return result.returncode == 1
+    return result.returncode == 0
 
 
 # Process individual PDF
@@ -50,7 +50,7 @@ def process_pdf(file_name):
     )
     pages = int(len(result.stdout.splitlines()))
     for x in range(pages):
-        process_page((x + 1), file_name)
+        process_page(x, file_name)
 
 
 # Process for an individual page within pdf
@@ -58,14 +58,14 @@ def process_page(number, file_name):
     print(str(number) + " " + file_name)
     # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic.
 
-    # subprocess.run([
-    #     "magick",
-    #     "-density", "300",
-    #     f"{file_name}[{number}]",
-    #     # TODO: Figure out how to algorithmically fix this line
-    #     "test.tiff"
-    # ])
     new_file = generate_file_name(file_name, number)
+
+    subprocess.run([
+        "magick",
+        "-density", "300",
+        f"{file_name}[{number}]",
+        new_file
+    ])
     print("output is: " + new_file)
 
 
@@ -73,7 +73,7 @@ def generate_file_name(file_name, page_num):
 
     file_name = file_name.replace("input-files", "output-files")
     base = file_name.replace(".pdf", "")
-
+    page_num = page_num + 1 # this is to make sure page number 0 is called "Page Number 1"
     page = str(page_num).zfill(2)
 
     return f"{base}_{page}.pdf"
