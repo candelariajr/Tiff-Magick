@@ -53,7 +53,7 @@ def process_pdf(file_name):
         process_page(x, file_name)
 
 
-# Process for an individual page within pdf
+# Process for an individual page within PDF
 def process_page(number, file_name):
     print(str(number) + " " + file_name)
     # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic.
@@ -69,6 +69,7 @@ def process_page(number, file_name):
     print("output is: " + new_file)
 
 
+# Returns file name for generation of TIFF file
 def generate_file_name(file_name, page_num):
 
     file_name = file_name.replace("input-files", "output-files")
