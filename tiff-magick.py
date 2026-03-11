@@ -57,6 +57,7 @@ def process_pdf(file_name):
 def process_page(number, file_name):
     print(str(number) + " " + file_name)
     # Remember 2 is actually the THIRD item in the index. TODO: Fix this logic.
+    # UPDATE: Logic Fixed
 
     new_file = generate_file_name(file_name, number)
 
