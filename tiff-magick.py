@@ -1,6 +1,6 @@
 import subprocess
 import os
-
+from pypdf import PdfReader
 print("Welcome to Jonathan Candelaria's PDF to TIFF Magick!")
 
 # Run test to see if command line works for ImageMagick and that magick is working
@@ -61,18 +61,9 @@ def process_page(number, file_name):
 # Process individual PDF
 def process_pdf(file_name):
     print("Processing File: " + file_name)
-
-    result = subprocess.run(
-        ["magick", "identify", "-format", "%n", file_name],
-        capture_output=True,
-        text=True
-    )
-
-    pages = int(result.stdout.strip())
-
+    pages = len(PdfReader(file_name).pages)
     for x in range(pages):
         process_page(x, file_name)
-
 
 # Start Main Script and loop through all PDF files
 input_folder = "input-files"
