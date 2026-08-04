@@ -40,7 +40,7 @@ def generate_output_pattern(file_name):
     return output_pattern
 
 
-# Process entire PDF using Ghostscript directly
+# Process entire PDF using Ghostscript
 def process_pdf(file_name):
     print("")
     print("Processing File: " + file_name)
@@ -111,5 +111,4 @@ for file in pdf_files:
     pdf_path = os.path.join(input_folder, file)
     process_pdf(pdf_path)
 
-print("")
 print("All PDF files processed.")
